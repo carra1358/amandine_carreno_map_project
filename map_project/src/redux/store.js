@@ -2,6 +2,7 @@ import { configureStore, combineReducers } from '@reduxjs/toolkit'
 import { persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage' // defaults to localStorage for web
 import mapReducer from './mapSlice';
+import mapListReducer from './mapListSlice';
 import thunk from 'redux-thunk';
 
 
@@ -12,7 +13,9 @@ const persistConfig = {
 
 
 const rootReducer = combineReducers({
-    locations: mapReducer,
+    map: mapReducer,
+    mapList: mapListReducer
+
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

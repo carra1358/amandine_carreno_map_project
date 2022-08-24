@@ -9,19 +9,17 @@ const mapSlice = createSlice({
     name: "map",
 
     initialState: {
-        locations: []
+        currentLocation: { lat: 1, long: 1 }
     },
 
     reducers: {
-
-        // Save locations visited by user
-        createAction: (state, action) => {
-            state.locations.push(action.payload)
-            return state
-        },
+        // update location lon and lat
+        GetcurrentLocation: (state, action) => {
+            state.currentLocation = action.payload
+        }
     }
 
 })
 
-export const { createAction } = mapSlice.actions;
+export const { GetcurrentLocation } = mapSlice.actions;
 export default mapSlice.reducer;
