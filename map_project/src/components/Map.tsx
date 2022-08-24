@@ -51,15 +51,30 @@ function Map () {
         }
 
         const getrandomLocalisation = () => {
-    
         
-        dispatch(GetcurrentLocation({ lat: 3 , long: 43 }))
+         const randomLat = Math.ceil(Math.random() * 90) * (Math.round(Math.random()) ? 1 : -1)
+         const randomlng = Math.ceil(Math.random() * 90) * (Math.round(Math.random()) ? 1 : -1)
+        
+        
+        dispatch(GetcurrentLocation({ lat: randomLat , long: randomlng}))
                                
         }
 
       useEffect(()=> {
 
-        getUserLocalisation()
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position: GeolocationPosition) => {
+                    const result = {
+                        lat: position.coords.latitude,
+                        long: position.coords.longitude,
+                    }
+                     console.log(result)
+                    dispatch(GetcurrentLocation(result))
+                }
+            )
+
+        } 
    
 
       }, [])
@@ -94,8 +109,7 @@ function Map () {
     
        <>
        <GoogleMap zoom={18} center={center} options={options} mapContainerClassName="map_view">
-           <Marker position={center}  />
-           
+           <Marker position={center}  />  
          </GoogleMap>
          <div className='button_container'>
          <Button customColor='#2EC1EF' label='Teleport me to somewhere random' handleClick={() => getrandomLocalisation()}></Button>
