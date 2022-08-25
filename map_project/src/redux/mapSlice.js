@@ -18,6 +18,7 @@ const mapSlice = createSlice({
         GetcurrentLocation: (state, action) => {
             state.currentLocation = action.payload
         },
+        // Save random locations visited
         saveLoc: (state, action) => {
             state.list.push(action.payload)
             return state

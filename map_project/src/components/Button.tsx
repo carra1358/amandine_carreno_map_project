@@ -1,3 +1,10 @@
+/**
+ * 
+ * @param label button text content
+ * @param customColor  button background color
+ * @param handleClick function pass to handle the behavior of button
+ * @return React Element 
+ */
 function Button ({label, customColor, handleClick}:ButtonProps){
 
 
