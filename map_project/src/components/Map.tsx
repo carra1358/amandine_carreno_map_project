@@ -1,8 +1,9 @@
 import { GoogleMap, Marker, useJsApiLoader} from '@react-google-maps/api';
 import { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { GetcurrentLocation } from '../redux/mapSlice';
+import { GetcurrentLocation, saveLoc } from '../redux/mapSlice';
 import { Button } from './Button';
+
 
 
 function Map () {
@@ -23,16 +24,17 @@ function Map () {
                 currentLocation : {
                     lat: number,
                     long: number
-                }
-                locations: Array<object>
+                },
+                list:  Array<object>
             }
+           
         }
         const dispatch = useDispatch()
         const mapSelector = useSelector((state : RootState) => state.map)
+        const mapList = mapSelector.list
         const lat = mapSelector.currentLocation.lat
         const long = mapSelector.currentLocation.long
-        
-        
+    
         const getUserLocalisation = () => {
             
             if (navigator.geolocation) {
@@ -42,7 +44,6 @@ function Map () {
                             lat: position.coords.latitude,
                             long: position.coords.longitude,
                         }
-                         console.log(result)
                         dispatch(GetcurrentLocation(result))
                     }
                 )
@@ -51,15 +52,30 @@ function Map () {
         }
 
         const getrandomLocalisation = () => {
-    
         
-        dispatch(GetcurrentLocation({ lat: 3 , long: 43 }))
-                               
+         const randomLat = Math.ceil(Math.random() * 90) * (Math.round(Math.random()) ? 1 : -1)
+         const randomlng = Math.ceil(Math.random() * 90) * (Math.round(Math.random()) ? 1 : -1)
+         const randomLocation = { lat: randomLat , long: randomlng}
+        console.log(mapList, mapSelector)
+        dispatch(GetcurrentLocation(randomLocation))
+        dispatch(saveLoc(randomLocation))                     
         }
 
       useEffect(()=> {
 
-        getUserLocalisation()
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position: GeolocationPosition) => {
+                    const result = {
+                        lat: position.coords.latitude,
+                        long: position.coords.longitude,
+                    }
+                    dispatch(GetcurrentLocation(result))
+                    
+                }
+            )
+
+        } 
    
 
       }, [])
@@ -94,8 +110,7 @@ function Map () {
     
        <>
        <GoogleMap zoom={18} center={center} options={options} mapContainerClassName="map_view">
-           <Marker position={center}  />
-           
+           <Marker position={center}  />  
          </GoogleMap>
          <div className='button_container'>
          <Button customColor='#2EC1EF' label='Teleport me to somewhere random' handleClick={() => getrandomLocalisation()}></Button>

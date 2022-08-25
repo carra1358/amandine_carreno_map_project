@@ -1,6 +1,8 @@
 import './App.css';
 import { Location } from './components/CurrentLocation';
 import { Map } from './components/Map';
+import { Visited } from './components/Visited';
+
 
 
 function App() {
@@ -12,6 +14,7 @@ function App() {
       <h1 className='App_title'>Map Project</h1>
       <Map></Map>
       <Location />
+      <Visited/>
     </div>
   );
 }
