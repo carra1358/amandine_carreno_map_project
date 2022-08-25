@@ -1,6 +1,6 @@
 .App{
   font-family: "roboto";
-  height: 100vh;
+  min-height: 100vh;
   margin: 0;
   padding: 0;
   background-color: rgba(196, 196, 196, 0.83);
@@ -50,7 +50,7 @@
   justify-content: center;
   align-items: center;
   position: relative;
-  margin-bottom: 10%;
+  margin-bottom: 1%;
 }
 
 .button_container{
